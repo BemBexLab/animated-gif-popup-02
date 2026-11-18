@@ -1,0 +1,119 @@
+{
+  "pageTitle": "Wurizip · Project participation",
+  "accessibility": {
+    "assistant": "Wurizip project assistant",
+    "conversation": "Project participation conversation",
+    "currentStep": "Current step",
+    "minimize": "Minimize Wurizip",
+    "open": "Open Wurizip"
+  },
+  "messages": {
+    "intro": [
+      [
+        "Hi, I’m Wurizip,",
+        "your Opustown companion."
+      ],
+      [
+        "Would you like to learn more",
+        "about the project you visited?"
+      ]
+    ],
+    "project": [
+      [
+        "Let’s take a closer look at Project \"AAA\"."
+      ],
+      [
+        "The participation index is one part",
+        "of the project’s information."
+      ],
+      [
+        "Would you like to see its index?"
+      ]
+    ],
+    "result": [
+      [
+        "Today, the Participation",
+        "Index for Project \"AAA\" is 0.8922."
+      ],
+      [
+        "An absolute index value of 1 or less indicates that the asset",
+        "possesses a substantive value below the average."
+      ],
+      [
+        "When the absolute index is 1 or less,",
+        "Kkaebi withholds evaluation."
+      ],
+      [
+        "Would you like to know more about the actual value",
+        "of other items?"
+      ]
+    ],
+    "topics": [
+      [
+        "What would you like to explore next?"
+      ],
+      [
+        "Choose an option below to learn more",
+        "about a project, its creator, or its details."
+      ]
+    ],
+    "declined": [
+      [
+        "No problem. Enjoy exploring!"
+      ],
+      [
+        "I’ll be right here if you need me."
+      ]
+    ]
+  },
+  "options": [
+    {
+      "id": "value",
+      "symbol": "A",
+      "label": "What gives a project value?",
+      "title": "Look beyond the first impression.",
+      "description": "A great project tells a clear story. Here are three things worth checking:",
+      "tips": [
+        "Look for original work and a clear creative direction.",
+        "Review the scope, deliverables, and usage rights.",
+        "Compare the asking price with similar projects."
+      ]
+    },
+    {
+      "id": "creator",
+      "symbol": "B",
+      "label": "Tell me about the creator",
+      "title": "Get to know the person behind it.",
+      "description": "The creator is part of the story. A little research can help you feel more confident.",
+      "tips": [
+        "Explore their portfolio and previous projects.",
+        "Read available reviews and community feedback.",
+        "Ask about their process, availability, and experience."
+      ]
+    },
+    {
+      "id": "details",
+      "symbol": "C",
+      "label": "What should I check first?",
+      "title": "The details make the difference.",
+      "description": "Before taking the next step, give these project essentials a quick look.",
+      "tips": [
+        "Read the full project description and included files.",
+        "Check timelines, revisions, and licensing terms.",
+        "Contact the creator about anything that is unclear."
+      ]
+    }
+  ],
+  "buttons": {
+    "yes": "Yes",
+    "no": "No",
+    "back": "← Back",
+    "continue": "Continue exploring"
+  },
+  "launcher": {
+    "openTitle": "Wurizip is here",
+    "closedTitle": "Ask Wurizip",
+    "openSubtitle": "Tap to minimize",
+    "closedSubtitle": "Your project companion"
+  }
+}
