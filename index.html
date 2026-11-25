@@ -8,7 +8,7 @@
     />
     <title></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="./popup.js?v=20261125-responsive-layout-v1" defer></script>
+    <script src="./popup.js?v=20261125-step5-header-back-v2" defer></script>
     <script
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"
       defer
@@ -26,19 +26,46 @@
         -webkit-backdrop-filter: blur(16px) saturate(140%);
         clip-path: url(#glass-clip);
       }
-      .popup-close {
+      .popup-close,
+      .popup-back-control {
         position: absolute;
-        right: 2%;
         top: 0;
         z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 44px;
         height: 44px;
+        padding: 0;
         font-size: 30px;
         line-height: 1;
         color: #008bd2;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.65);
         backdrop-filter: blur(10px);
+      }
+      .popup-close {
+        right: 2%;
+      }
+      .popup-back-control {
+        color: #008bd2;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(10px);
+      }
+      .popup-back-icon {
+        display: block;
+        transform: translateX(8px);
+      }
+      .popup-control-icon {
+        display: block;
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
       }
       button {
         cursor: pointer;
@@ -161,25 +188,6 @@
       .answer-actions button {
         min-height: 44px;
       }
-      .explore-back {
-        min-height: 44px;
-        padding: 8px 14px;
-        border: 0;
-        border-radius: 8px;
-        background: transparent;
-        color: #193344;
-        font: inherit;
-        white-space: nowrap;
-      }
-      .explore-back:hover {
-        background: rgba(255, 255, 255, 0.45);
-      }
-      .explore-footer {
-        display: flex;
-        justify-content: flex-start;
-        gap: 36px;
-        margin-top: 12px;
-      }
       @media (max-width: 600px), (max-height: 500px) {
         [data-step="5"] .avatar-actions {
           min-height: 0;
@@ -288,13 +296,27 @@
         @keydown.escape="closePopup()"
       >
         <button
+          x-show="step > 1"
+          type="button"
+          class="popup-back-control"
+          :style="headerBackStyle"
+          @click="goBack()"
+          aria-label="Go back"
+        >
+          <svg class="popup-control-icon popup-back-icon" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M12 4 6 10l6 6" />
+          </svg>
+        </button>
+        <button
           type="button"
           class="popup-close"
           :style="closeStyle"
           @click="closePopup()"
           aria-label="Close Wurizip"
         >
-          ×
+          <svg class="popup-control-icon" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="m6 6 8 8M14 6l-8 8" />
+          </svg>
         </button>
         <section
           x-ref="popupViewport"
@@ -510,27 +532,25 @@
                 </button>
               </div>
               <div x-show="step === 5 && selected" class="answer-actions">
-                <button type="button" class="explore-back" @click="explore()" x-text="content.buttons.back"></button>
                 <button type="button" @click="explore()" x-text="content.buttons.continue"></button>
               </div>
             </div>
           </div>
-          <div x-show="step === 5 && !selected" class="explore-options" :style="exploreOptionsStyle">
-            <template x-for="option in options" :key="option.id">
-              <div>
-                <button
-                  type="button"
-                  @click="chooseTopic(option.id)"
-                  :aria-pressed="interest === option.id"
-                  aria-controls="explore-answer"
-                >
-                  <span class="topic-circle" x-text="option.symbol"></span
-                  ><span x-text="option.label"></span>
-                </button>
-              </div>
-            </template>
-            <div class="explore-footer">
-              <button type="button" class="explore-back" @click="backFromExplore()" x-text="content.buttons.back"></button
+          <div x-show="step === 5 && !selected" class="explore-options">
+            <div class="explore-topic-list" :style="exploreTopicListStyle">
+              <template x-for="option in options" :key="option.id">
+                <div>
+                  <button
+                    type="button"
+                    @click="chooseTopic(option.id)"
+                    :aria-pressed="interest === option.id"
+                    aria-controls="explore-answer"
+                  >
+                    <span class="topic-circle" x-text="option.symbol"></span
+                    ><span x-text="option.label"></span>
+                  </button>
+                </div>
+              </template>
             </div>
           </div>
         </section>

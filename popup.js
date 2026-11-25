@@ -48,9 +48,20 @@ document.addEventListener('alpine:init', () => {
       const offset = this.flowingLayout ? 0 : this.stageOffsetX;
       return { transform: offset ? `translateX(${offset / 712 * 100}%)` : 'none' };
     },
-    get exploreOptionsStyle() {
-      const offset = this.flowingLayout ? 0 : this.stageOffsetX;
-      return { transform: offset ? `translateX(${offset / 712 * 100}%)` : 'none' };
+    get exploreTopicListStyle() {
+      if (this.flowingLayout) return { position: 'relative', left: 'auto', top: 'auto', width: 'auto' };
+      const { scale, tx, ty } = this.bubbleGeometry;
+      const centerX = tx + scale * 368 + this.stageOffsetX;
+      const width = 300;
+      const left = centerX - 80;
+      const top = ty + scale * 365 + 12;
+      return {
+        position: 'absolute',
+        left: (left / 712 * 100) + '%',
+        right: 'auto',
+        top: (top / 712 * 100) + 'cqw',
+        width: (width / 712 * 100) + '%',
+      };
     },
     get choiceActionsStyle() {
       if (this.flowingLayout) {
@@ -80,6 +91,13 @@ document.addEventListener('alpine:init', () => {
       const left = Math.min(tx + scale * 703 - 16 + this.stageOffsetX, 660);
       const top = Math.max(2, ty + scale * 10 - 24);
       return { left: (left / 712 * 100) + '%', right: 'auto', top: (top / 536 * 100) + '%' };
+    },
+    get headerBackStyle() {
+      if (this.flowingLayout) return { left: 'auto', right: 'calc(2% + 44px)', top: '0px' };
+      const { scale, tx, ty } = this.bubbleGeometry;
+      const closeLeft = Math.min(tx + scale * 703 - 16 + this.stageOffsetX, 660);
+      const top = Math.max(2, ty + scale * 10 - 24);
+      return { left: ((closeLeft - 44) / 712 * 100) + '%', right: 'auto', top: (top / 536 * 100) + '%' };
     },
     init() {
       this.motionReduced = this.reducedMotion.matches;
@@ -241,6 +259,19 @@ document.addEventListener('alpine:init', () => {
         return;
       }
       this.closePopup();
+    },
+    goBack() {
+      if (Number(this.step) === 5) {
+        if (this.selected) {
+          this.interest = null;
+          this.focusStep();
+          return;
+        }
+        this.backFromExplore();
+        return;
+      }
+      this.step = Number(this.step) === 2 ? 1 : 2;
+      this.focusStep();
     },
     chooseTopic(id) { this.interest = id; this.focusStep(); },
     backFromExplore() { this.step = 4; this.focusStep(); },
