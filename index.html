@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,11 +8,240 @@
     />
     <title></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="./popup.js" defer></script>
+    <script src="./popup.js?v=20261125-step5-no-routing" defer></script>
     <script
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"
       defer
     ></script>
+    <style>
+      [data-step="5"] [x-ref="popupViewport"] {
+        aspect-ratio: auto;
+      }
+      .bubble-glass {
+        position: fixed;
+        z-index: 49;
+        pointer-events: none;
+        background: rgba(178, 227, 250, 0.55);
+        backdrop-filter: blur(16px) saturate(140%);
+        -webkit-backdrop-filter: blur(16px) saturate(140%);
+        clip-path: url(#glass-clip);
+      }
+      .popup-close {
+        position: absolute;
+        right: 2%;
+        top: 0;
+        z-index: 30;
+        width: 44px;
+        height: 44px;
+        font-size: 30px;
+        line-height: 1;
+        color: #008bd2;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(10px);
+      }
+      button {
+        cursor: pointer;
+      }
+      button:focus-visible {
+        outline: 2px solid #008bd2;
+        outline-offset: 3px;
+      }
+      .index-screen {
+        padding-top: 5cqw;
+      }
+      .index-choices {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1cqw 4cqw;
+        max-width: 70%;
+        margin: 2cqw auto 0;
+      }
+      .index-choices button {
+        display: flex;
+        align-items: center;
+        gap: 1.2cqw;
+        min-height: 44px;
+      }
+      .choice-circle {
+        width: 3.35cqw;
+        height: 3.35cqw;
+        border: 2px dotted #00b5ff;
+        border-radius: 50%;
+      }
+      .above-result {
+        font-size: 2.8cqw;
+        line-height: 4cqw;
+        padding: 1cqw 3cqw 0;
+      }
+      .above-result p + p {
+        margin-top: 0.8cqw;
+      }
+      .captain-advice {
+        color: #386e2c;
+      }
+      .explore-options {
+        margin: 0 4% 24px;
+        font-size: 18px;
+      }
+      .explore-options button {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 44px;
+        text-align: left;
+      }
+      .topic-circle {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border: 2px dotted #00b5ff;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      /* Center answers on the oval body (368, 171), excluding its tail. */
+      [x-ref="stepTitle"].centered-answer {
+        left: 51.6854%;
+        top: 31.903%;
+        width: 82%;
+        transform: translate(-50%, -50%);
+      }
+      .bubble-answer {
+        padding: 0 3cqw;
+        font-size: 2.8cqw;
+        line-height: 4cqw;
+      }
+      .bubble-answer .answer-title {
+        font-size: 3.09cqw;
+      }
+      .answer-description {
+        max-height: 30cqw;
+        overflow-y: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        white-space: pre-line;
+        font-size: 2.45cqw;
+        line-height: 3.35cqw;
+      }
+      .answer-description::-webkit-scrollbar {
+        display: none;
+      }
+      .bubble-answer ul {
+        list-style: none;
+        margin-top: 1.5cqw;
+        padding: 0;
+        text-align: center;
+      }
+      .bubble-answer li + li {
+        margin-top: 0.7cqw;
+      }
+      .answer-actions {
+        position: absolute;
+        left: 28%;
+        right: 8%;
+        top: 68%;
+        display: flex;
+        justify-content: space-around;
+        gap: 3cqw;
+        font-size: 2.8cqw;
+      }
+      .answer-actions button {
+        min-height: 44px;
+      }
+      .explore-back {
+        min-height: 44px;
+        padding: 8px 14px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: #193344;
+        font: inherit;
+        white-space: nowrap;
+      }
+      .explore-back:hover {
+        background: rgba(255, 255, 255, 0.45);
+      }
+      .explore-footer {
+        display: flex;
+        justify-content: flex-start;
+        gap: 36px;
+        margin-top: 12px;
+      }
+      @media (max-width: 600px), (max-height: 500px) {
+        [data-step="5"] .avatar-actions {
+          min-height: 0;
+        }
+        .bubble-glass {
+          clip-path: none;
+          border-radius: 32px;
+          background: rgba(255, 255, 255, 0.4);
+        }
+        [x-ref="popupViewport"] {
+          background: transparent;
+        }
+        [x-ref="stepTitle"],
+        [x-ref="stepTitle"]::after {
+          background: rgba(178, 227, 250, 0.55);
+        }
+        [x-ref="stepTitle"] {
+          padding-bottom: 18px;
+        }
+        .index-choices {
+          max-width: 100%;
+          gap: 4px 20px;
+          margin-top: 12px;
+        }
+        .index-choices button {
+          gap: 8px;
+        }
+        .choice-circle {
+          width: 24px;
+          height: 24px;
+        }
+        .above-result {
+          font-size: 16px;
+          line-height: 24px;
+        }
+        .desktop-break {
+          display: none;
+        }
+        .explore-options {
+          font-size: 16px;
+        }
+        .bubble-answer {
+          padding: 0;
+          font-size: 16px;
+          line-height: 24px;
+        }
+        [x-ref="stepTitle"].centered-answer {
+          inset: auto;
+          width: 100%;
+          transform: none;
+          padding-top: 48px;
+          padding-bottom: 48px;
+        }
+        .bubble-answer .answer-title {
+          font-size: 16px;
+        }
+        .answer-description {
+          max-height: none;
+          overflow: visible;
+          font-size: 16px;
+          line-height: 24px;
+        }
+        .answer-actions {
+          position: relative;
+          inset: auto;
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 8px;
+          padding-top: 12px;
+          font-size: 16px;
+        }
+      }
+    </style>
   </head>
   <body
     class="min-h-dvh bg-white font-[Arial,sans-serif] text-black"
@@ -28,12 +257,22 @@
     ></template>
 
     <!-- Narrow or short viewports use a flowing layout; larger screens retain the reference composition. -->
-    <template x-if="ready">
+    <template x-if="ready && isOpen">
       <aside
+        x-ref="popupAnchor"
+        :data-step="step"
         class="fixed bottom-[max(8px,env(safe-area-inset-bottom))] right-[max(8px,env(safe-area-inset-right))] z-50 w-[min(712px,calc(100vw-16px))] lg:bottom-4 lg:right-4 lg:w-[min(712px,calc(100vw-32px))] max-w-[calc(100vw-max(8px,env(safe-area-inset-left))-max(8px,env(safe-area-inset-right)))] [@media(max-height:500px)]:max-w-[min(520px,calc(100vw-32px))] [container-type:inline-size]"
         :aria-label="content.accessibility.assistant"
         @keydown.escape="closePopup()"
       >
+        <button
+          type="button"
+          class="popup-close"
+          @click="closePopup()"
+          aria-label="Close Wurizip"
+        >
+          ×
+        </button>
         <section
           x-ref="popupViewport"
           x-show="isOpen"
@@ -44,6 +283,14 @@
           <div
             class="relative aspect-[712/536] [@media(max-width:600px),(max-height:500px)]:aspect-auto"
           >
+            <!-- Render the glass at the document level so the popup's stacking context does not block backdrop sampling. -->
+            <template x-teleport="body"
+              ><div
+                class="bubble-glass"
+                :style="glassStyle"
+                aria-hidden="true"
+              ></div
+            ></template>
             <!-- A single outline joins the oval and tail without a seam. -->
             <svg
               class="pointer-events-none absolute inset-0 h-full w-full [@media(max-width:600px),(max-height:500px)]:hidden"
@@ -51,6 +298,12 @@
               aria-hidden="true"
             >
               <defs>
+                <clipPath id="glass-clip" clipPathUnits="objectBoundingBox">
+                  <path
+                    :d="bubblePath"
+                    transform="scale(0.0014044944 0.0018656716)"
+                  />
+                </clipPath>
                 <filter
                   id="bubble-edge"
                   x="-5%"
@@ -76,7 +329,7 @@
               </defs>
               <path
                 :d="bubblePath"
-                fill="#b2e3fa"
+                fill="none"
                 stroke="#008bd2"
                 stroke-width="3"
                 stroke-linejoin="round"
@@ -100,142 +353,109 @@
             <!-- Start with an introduction; the reference result appears at step three. -->
             <div
               x-ref="stepTitle"
+              :class="{ 'centered-answer': step === 5 && selected }"
               tabindex="-1"
               class="absolute left-[8%] top-[5.2%] w-[87%] text-center text-[3.09cqw] leading-[4.95cqw] outline-none [@media(max-width:600px),(max-height:500px)]:relative [@media(max-width:600px),(max-height:500px)]:left-auto [@media(max-width:600px),(max-height:500px)]:top-auto [@media(max-width:600px),(max-height:500px)]:w-full [@media(max-width:600px),(max-height:500px)]:rounded-[36px] [@media(max-width:600px),(max-height:500px)]:border-[3px] [@media(max-width:600px),(max-height:500px)]:border-dotted [@media(max-width:600px),(max-height:500px)]:border-[#008bd2] [@media(max-width:600px),(max-height:500px)]:bg-[#b2e3fa] [@media(max-width:600px),(max-height:500px)]:px-[clamp(12px,4vw,20px)] [@media(max-width:600px),(max-height:500px)]:pb-6 [@media(max-width:600px),(max-height:500px)]:pt-14 [@media(max-width:600px),(max-height:500px)]:text-base [@media(max-width:600px),(max-height:500px)]:leading-6 [@media(max-width:600px),(max-height:500px)]:[&>div]:pt-0 [@media(max-width:600px),(max-height:500px)]:[&_p+p]:mt-3 [@media(max-width:600px),(max-height:500px)]:[&_p]:leading-6 [@media(max-width:600px),(max-height:500px)]:[&_ul]:text-base [@media(max-width:600px),(max-height:500px)]:[&_ul]:leading-6 [@media(max-width:600px),(max-height:500px)]:[&_ul]:space-y-3 [@media(max-width:600px),(max-height:500px)]:after:absolute [@media(max-width:600px),(max-height:500px)]:after:-bottom-3 [@media(max-width:600px),(max-height:500px)]:after:left-[calc(clamp(72px,27vw,104px)*0.6_-_2px)] [@media(max-width:600px),(max-height:500px)]:after:size-5 [@media(max-width:600px),(max-height:500px)]:after:rotate-45 [@media(max-width:600px),(max-height:500px)]:after:border-b-[3px] [@media(max-width:600px),(max-height:500px)]:after:border-r-[3px] [@media(max-width:600px),(max-height:500px)]:after:border-dotted [@media(max-width:600px),(max-height:500px)]:after:border-[#008bd2] [@media(max-width:600px),(max-height:500px)]:after:bg-[#b2e3fa] [@media(max-width:600px),(max-height:500px)]:after:content-['']"
               aria-live="polite"
               aria-atomic="true"
             >
-              <div x-show="step === 1 && !declined" class="pt-[8cqw]">
-                <p>
-                  <span x-text="content.messages.intro[0][0]"></span
-                  ><br
-                    class="[@media(max-width:600px),(max-height:500px)]:hidden"
-                  />
-                  <span x-text="content.messages.intro[0][1]"></span>
-                </p>
-                <p class="mt-[2cqw]">
-                  <span x-text="content.messages.intro[1][0]"></span
-                  ><br
-                    class="[@media(max-width:600px),(max-height:500px)]:hidden"
-                  />
-                  <span x-text="content.messages.intro[1][1]"></span>
+              <div x-show="step === 1" class="pt-[7cqw]">
+                <p>Hi, I’m Wurizip,<br />your Opustown companion.</p>
+                <p class="mt-[1cqw]">
+                  Would you like to know the C-Index<br class="desktop-break" />
+                  of the project you visited?
                 </p>
               </div>
-              <div x-show="step === 2 && !declined" class="pt-[3cqw]">
-                <p><span x-text="content.messages.project[0][0]"></span></p>
-                <p class="mt-[2cqw]">
-                  <span x-text="content.messages.project[1][0]"></span
-                  ><br
-                    class="[@media(max-width:600px),(max-height:500px)]:hidden"
-                  />
-                  <span x-text="content.messages.project[1][1]"></span>
-                </p>
-                <p class="mt-[2cqw]">
-                  <span x-text="content.messages.project[2][0]"></span>
-                </p>
+              <div x-show="step === 2" class="index-screen">
+                <p>Which index would you like to know?</p>
+                <div class="index-choices">
+                  <template x-for="index in content.indices" :key="index.id">
+                    <button
+                      type="button"
+                      @click="chooseIndex(index.id)"
+                      :title="index.name"
+                      :aria-label="index.shortName + ' (' + index.name + ')'"
+                    >
+                      <span class="choice-circle" aria-hidden="true"></span
+                      ><span x-text="index.shortName"></span>
+                    </button>
+                  </template>
+                </div>
               </div>
-              <div x-show="step === 3 && !declined">
+              <div x-show="step === 3">
                 <p>
-                  <span x-text="content.messages.result[0][0]"></span
-                  ><br
-                    class="[@media(max-width:600px),(max-height:500px)]:hidden"
-                  />
-                  <span x-text="content.messages.result[0][1]"></span>
+                  Today, the <span x-text="selectedIndex?.name"></span
+                  ><br />Index for Project “AAA” is
+                  <span x-text="selectedIndex?.value"></span>.
                 </p>
                 <p class="leading-[4.2cqw]">
-                  <span x-text="content.messages.result[1][0]"></span
-                  ><br
-                    class="[@media(max-width:600px),(max-height:500px)]:hidden"
-                  />
-                  <span x-text="content.messages.result[1][1]"></span>
+                  An absolute index value of 1 or less indicates that the
+                  asset<br class="desktop-break" />
+                  possesses a substantive value below the average.
                 </p>
                 <p class="mt-[1cqw] font-bold text-[#ff6255]">
-                  <span x-text="content.messages.result[2][0]"></span
-                  ><br
-                    class="[@media(max-width:600px),(max-height:500px)]:hidden"
-                  />
-                  <span x-text="content.messages.result[2][1]"></span>
+                  When the absolute index is 1 or less,<br />Kkaebi withholds
+                  evaluation.
                 </p>
-                <p>
-                  <span x-text="content.messages.result[3][0]"></span
-                  ><br
-                    class="[@media(max-width:600px),(max-height:500px)]:hidden"
-                  />
-                  <span x-text="content.messages.result[3][1]"></span>
-                </p>
+                <p class="mt-[1cqw]" x-text="content.messages.otherItems"></p>
               </div>
-              <div x-show="step === 4 && !declined" class="pt-[5cqw]">
-                <p><span x-text="content.messages.topics[0][0]"></span></p>
+              <div x-show="step === 4" class="above-result">
+                <p>
+                  Today’s <span x-text="selectedIndex?.name"></span> Index is
+                  <span x-text="selectedIndex?.value"></span>.
+                </p>
+                <p>This is above average.</p>
+                <p
+                  x-text="'The ' + selectedIndex?.name + ' Index of ' + selectedIndex?.value + ' falls within ' + selectedIndex?.tier + '.'"
+                ></p>
+                <p
+                  class="captain-advice"
+                  x-text="'Captain: ' + selectedIndex?.advice"
+                ></p>
+                <p x-text="content.messages.otherItems"></p>
+              </div>
+              <div x-show="step === 5 && !selected" class="pt-[9cqw]">
+                <p x-text="content.messages.topics[0][0]"></p>
                 <p class="mt-[2cqw]">
-                  <span x-text="content.messages.topics[1][0]"></span
-                  ><br
-                    class="[@media(max-width:600px),(max-height:500px)]:hidden"
-                  />
+                  <span x-text="content.messages.topics[1][0]"></span>
+                  <br class="desktop-break" />
                   <span x-text="content.messages.topics[1][1]"></span>
                 </p>
               </div>
-              <div x-show="step === 5 && !declined" class="px-[3cqw] pt-[2cqw]">
-                <p class="font-bold" x-text="selected.title"></p>
-                <ul
-                  class="mt-[1.5cqw] space-y-[1cqw] text-[2.65cqw] leading-[4cqw]"
-                >
-                  <template x-for="tip in selected.tips" :key="tip"
-                    ><li x-text="tip"></li
-                  ></template>
-                </ul>
-              </div>
-              <div x-show="declined" class="pt-[7cqw]">
-                <p><span x-text="content.messages.declined[0][0]"></span></p>
-                <p class="mt-[2cqw]">
-                  <span x-text="content.messages.declined[1][0]"></span>
-                </p>
+              <div id="explore-answer" x-show="step === 5 && selected" class="bubble-answer">
+                <template x-if="selected">
+                  <div>
+                    <p x-show="selected.title" class="answer-title font-bold" x-text="selected.title"></p>
+                    <p x-show="selected.description && !selected.tips?.length" class="answer-description" x-text="selected.description"></p>
+                    <ul x-show="selected.tips?.length">
+                      <template x-for="tip in selected.tips || []" :key="tip">
+                        <li x-text="tip"></li>
+                      </template>
+                    </ul>
+                  </div>
+                </template>
               </div>
             </div>
 
             <!-- On phones the avatar and answers flow below the message. -->
             <div
-              class="contents [@media(max-width:600px),(max-height:500px)]:grid [@media(max-width:600px),(max-height:500px)]:grid-cols-[clamp(72px,27vw,104px)_minmax(0,1fr)] [@media(max-width:600px),(max-height:500px)]:min-h-[264px] [@media(max-width:600px),(max-height:500px)]:items-start [@media(max-width:600px),(max-height:500px)]:gap-2 [@media(max-width:600px),(max-height:500px)]:px-2 [@media(max-width:600px),(max-height:500px)]:pt-4"
+              class="avatar-actions contents [@media(max-width:600px),(max-height:500px)]:grid [@media(max-width:600px),(max-height:500px)]:grid-cols-[clamp(72px,27vw,104px)_minmax(0,1fr)] [@media(max-width:600px),(max-height:500px)]:min-h-[264px] [@media(max-width:600px),(max-height:500px)]:items-start [@media(max-width:600px),(max-height:500px)]:gap-2 [@media(max-width:600px),(max-height:500px)]:px-2 [@media(max-width:600px),(max-height:500px)]:pt-4"
             >
-              <!-- Both clips share one stage and align to its right edge, matching their face and feet positions. -->
+              <!-- Transparent animations retain the original stage and right-edge alignment. -->
               <div
-                class="pointer-events-none absolute bottom-[3.3%] left-0 aspect-[574/720] w-[25%] mix-blend-multiply [@media(max-width:600px),(max-height:500px)]:relative [@media(max-width:600px),(max-height:500px)]:bottom-auto [@media(max-width:600px),(max-height:500px)]:left-auto [@media(max-width:600px),(max-height:500px)]:w-[clamp(72px,27vw,104px)]"
+                class="pointer-events-none absolute bottom-[3.3%] left-0 aspect-[574/720] w-[25%] [@media(max-width:600px),(max-height:500px)]:relative [@media(max-width:600px),(max-height:500px)]:bottom-auto [@media(max-width:600px),(max-height:500px)]:left-auto [@media(max-width:600px),(max-height:500px)]:w-[clamp(72px,27vw,104px)]"
                 aria-hidden="true"
               >
-                <video
-                  x-ref="blink"
-                  x-show="step !== 1 || declined"
+                <img
+                  :src="characterSource"
+                  alt=""
                   class="absolute bottom-0 right-0 h-full w-auto max-w-none"
-                  muted
-                  playsinline
-                  loop
-                  preload="auto"
-                  tabindex="-1"
-                >
-                  <source
-                    src="./assets/Blinking eyes (online-video-cutter.com) (1).mp4"
-                    type="video/mp4"
-                  />
-                </video>
-                <video
-                  x-ref="wave"
-                  x-show="step === 1 && !declined"
-                  class="absolute bottom-0 right-0 h-full w-auto max-w-none"
-                  muted
-                  playsinline
-                  loop
-                  preload="auto"
-                  tabindex="-1"
-                >
-                  <source
-                    src="./assets/Waveing hand (online-video-cutter.com) (1).mp4"
-                    type="video/mp4"
-                  />
-                </video>
+                />
               </div>
 
               <!-- Reference-style choice circles. Choosing an answer advances the flow. -->
               <div
-                x-show="step <= 3 && !declined"
+                x-show="step === 1 || step === 3 || step === 4"
                 class="absolute left-[32.5%] right-[24%] top-[67.4%] flex items-center justify-between text-[3.09cqw] [@media(max-width:600px),(max-height:500px)]:relative [@media(max-width:600px),(max-height:500px)]:left-auto [@media(max-width:600px),(max-height:500px)]:right-auto [@media(max-width:600px),(max-height:500px)]:top-auto [@media(max-width:600px),(max-height:500px)]:flex-wrap [@media(max-width:600px),(max-height:500px)]:justify-start [@media(max-width:600px),(max-height:500px)]:gap-x-4 [@media(max-width:600px),(max-height:500px)]:gap-y-2 [@media(max-width:600px),(max-height:500px)]:pt-4 [@media(max-width:600px),(max-height:500px)]:text-base"
               >
                 <button
@@ -251,7 +471,7 @@
                 </button>
                 <button
                   type="button"
-                  @click="decline()"
+                  @click="Number(step) === 4 ? explore() : closePopup()"
                   class="group flex min-h-[max(44px,6cqw)] [@media(max-width:600px),(max-height:500px)]:min-h-11 [@media(max-width:600px),(max-height:500px)]:min-w-16 items-center gap-[2.5cqw] rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500"
                 >
                   <span
@@ -261,93 +481,31 @@
                   ><span x-text="content.buttons.no"></span>
                 </button>
               </div>
-              <div
-                x-show="step === 4 && !declined"
-                class="absolute left-[25%] right-[4%] top-[66%] space-y-[1cqw] [@media(max-width:600px),(max-height:500px)]:relative [@media(max-width:600px),(max-height:500px)]:left-auto [@media(max-width:600px),(max-height:500px)]:right-auto [@media(max-width:600px),(max-height:500px)]:top-auto [@media(max-width:600px),(max-height:500px)]:space-y-2"
-              >
-                <template x-for="option in options" :key="option.id"
-                  ><button
-                    type="button"
-                    @click="choose(option.id)"
-                    class="flex min-h-[max(44px,6cqw)] items-center gap-[1.5cqw] text-left text-[2.6cqw] hover:text-sky-700 [@media(max-width:600px),(max-height:500px)]:min-h-11 [@media(max-width:600px),(max-height:500px)]:gap-2 [@media(max-width:600px),(max-height:500px)]:text-sm [@media(max-width:600px),(max-height:500px)]:leading-5 [@media(max-width:600px),(max-height:500px)]:w-full [@media(max-width:600px),(max-height:500px)]:min-w-0 [@media(max-width:600px),(max-height:500px)]:[&>span:last-child]:min-w-0 [@media(max-width:600px),(max-height:500px)]:[&>span:last-child]:break-words"
-                  >
-                    <span
-                      class="flex size-[4cqw] [@media(max-width:600px),(max-height:500px)]:size-7 [@media(max-width:600px),(max-height:500px)]:shrink-0 [@media(max-width:600px),(max-height:500px)]:text-sm items-center justify-center rounded-full border-2 border-dotted border-[#00b5ff] text-[2.4cqw]"
-                      x-text="option.symbol"
-                    ></span
-                    ><span x-text="option.label"></span></button
-                ></template>
-                <button
-                  type="button"
-                  @click="back()"
-                  class="min-h-11 [@media(max-width:600px),(max-height:500px)]:text-sm text-[2.2cqw] text-slate-500 hover:text-sky-700"
-                  x-text="content.buttons.back"
-                ></button>
-              </div>
-              <div
-                x-show="step === 5 || declined"
-                class="absolute left-[28%] right-[12%] top-[68%] flex justify-around gap-[3cqw] text-[2.8cqw] [@media(max-width:600px),(max-height:500px)]:relative [@media(max-width:600px),(max-height:500px)]:left-auto [@media(max-width:600px),(max-height:500px)]:right-auto [@media(max-width:600px),(max-height:500px)]:top-auto [@media(max-width:600px),(max-height:500px)]:flex-col [@media(max-width:600px),(max-height:500px)]:gap-2 [@media(max-width:600px),(max-height:500px)]:text-base [@media(max-width:600px),(max-height:500px)]:[&>button]:min-h-11"
-              >
-                <button
-                  type="button"
-                  @click="back()"
-                  class="min-h-11 rounded-lg px-[2cqw] py-[1cqw] hover:bg-sky-50"
-                  x-text="content.buttons.back"
-                ></button
-                ><button
-                  type="button"
-                  @click="closePopup()"
-                  class="min-h-11 rounded-lg px-[2cqw] py-[1cqw] hover:bg-sky-50"
-                  x-text="content.buttons.continue"
-                ></button>
+              <div x-show="step === 5 && selected" class="answer-actions">
+                <button type="button" class="explore-back" @click="explore()" x-text="content.buttons.back"></button>
+                <button type="button" @click="explore()" x-text="content.buttons.continue"></button>
               </div>
             </div>
           </div>
+          <div x-show="step === 5 && !selected" class="explore-options">
+            <template x-for="option in options" :key="option.id">
+              <div>
+                <button
+                  type="button"
+                  @click="chooseTopic(option.id)"
+                  :aria-pressed="interest === option.id"
+                  aria-controls="explore-answer"
+                >
+                  <span class="topic-circle" x-text="option.symbol"></span
+                  ><span x-text="option.label"></span>
+                </button>
+              </div>
+            </template>
+            <div class="explore-footer">
+              <button type="button" class="explore-back" @click="backFromExplore()" x-text="content.buttons.back"></button
+            </div>
+          </div>
         </section>
-        <!-- Character-led launcher with a visible label and open/close indicator. -->
-        <button
-          x-ref="launcher"
-          type="button"
-          @click="isOpen ? closePopup() : openPopup()"
-          class="group absolute bottom-[0.5cqw] right-0 flex max-w-full items-center gap-2.5 rounded-2xl border border-[#e4e9ec] bg-white py-1.5 pl-1.5 pr-2 text-[#263b49] shadow-[0_6px_22px_-6px_rgba(38,59,73,0.25)] transition duration-200 hover:border-[#83b34f] hover:shadow-[0_8px_24px_-6px_rgba(38,59,73,0.3)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-600 motion-reduce:transform-none"
-          :aria-label="isOpen ? content.accessibility.minimize : content.accessibility.open"
-          :aria-expanded="isOpen"
-        >
-          <span
-            class="size-10 shrink-0 overflow-hidden rounded-xl border border-[#ead9a1] bg-[#fff2c9]"
-            ><img
-              src="./assets/wurizip-portrait.png"
-              alt=""
-              width="40"
-              height="40"
-              class="h-full w-full object-cover mix-blend-multiply"
-          /></span>
-          <span class="min-w-0 text-left"
-            ><span
-              class="block text-[13px] font-bold leading-5"
-              x-text="isOpen ? content.launcher.openTitle : content.launcher.closedTitle"
-            ></span
-            ><span
-              class="block text-[10px] leading-4 text-slate-500"
-              x-text="isOpen ? content.launcher.openSubtitle : content.launcher.closedSubtitle"
-            ></span
-          ></span>
-          <span
-            class="ml-1 flex size-7 shrink-0 items-center justify-center rounded-full bg-[#ffda35] text-[#263b49] transition group-hover:bg-[#ffce16]"
-            aria-hidden="true"
-            ><svg
-              class="size-4 transition-transform motion-reduce:transition-none"
-              :class="isOpen ? '' : 'rotate-180'"
-              viewBox="0 0 20 20"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="m5 8 5 5 5-5" /></svg
-          ></span>
-        </button>
       </aside>
     </template>
   </body>

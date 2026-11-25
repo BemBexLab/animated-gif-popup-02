@@ -57,50 +57,34 @@
         "about a project, its creator, or its details."
       ]
     ],
-    "declined": [
-      [
-        "No problem. Enjoy exploring!"
-      ],
-      [
-        "I’ll be right here if you need me."
-      ]
-    ]
+    "otherItems": "Would you like to know the value of other items?"
   },
   "options": [
     {
       "id": "value",
       "symbol": "A",
       "label": "What gives a project value?",
-      "title": "Look beyond the first impression.",
-      "description": "A great project tells a clear story. Here are three things worth checking:",
+      "title": "",
+      "description": "Opustown calculates various metrics such as the F-Index, P-Index, V-Index, and A-Index. The final project value refers to the C-Index. The Absolute Indexes provided by opustown are for reference only and do not represent market prices.",
       "tips": [
-        "Look for original work and a clear creative direction.",
-        "Review the scope, deliverables, and usage rights.",
-        "Compare the asking price with similar projects."
       ]
     },
     {
       "id": "creator",
       "symbol": "B",
       "label": "Tell me about the creator",
-      "title": "Get to know the person behind it.",
-      "description": "The creator is part of the story. A little research can help you feel more confident.",
+      "title": "",
+      "description": "The Captain's name is James, and this project was launched on November 23, 2026. The current members consist of 4 Lead Group members, 12 Credit Members, and 26 Heart Members.\nJames has launched 3 projects and is participating in 5 projects as a contributor. He is excellent as a creator.",
       "tips": [
-        "Explore their portfolio and previous projects.",
-        "Read available reviews and community feedback.",
-        "Ask about their process, availability, and experience."
       ]
     },
     {
       "id": "details",
       "symbol": "C",
       "label": "What should I check first?",
-      "title": "The details make the difference.",
-      "description": "Before taking the next step, give these project essentials a quick look.",
+      "title": "",
+      "description": "To participate in a creative project, first check the project's Goal, Concept, and Tone & Mood. Then, consider contributing to proposing stories or building up images.\nIf you have received credits in a collaborative project, check your share. You can trust the fair distribution of copyrights by opustown, which aims for 'Allocative Web 3.0'.\nIt is important to understand that depending on the commercialization, the joint copyright for the entire project differs from the joint copyright for each section.",
       "tips": [
-        "Read the full project description and included files.",
-        "Check timelines, revisions, and licensing terms.",
-        "Contact the creator about anything that is unclear."
       ]
     }
   ],
@@ -110,10 +94,39 @@
     "back": "← Back",
     "continue": "Continue exploring"
   },
-  "launcher": {
-    "openTitle": "Wurizip is here",
-    "closedTitle": "Ask Wurizip",
-    "openSubtitle": "Tap to minimize",
-    "closedSubtitle": "Your project companion"
-  }
+  "projectId": "AAA",
+  "indices": [
+    {
+      "id": "c",
+      "shortName": "C-Index",
+      "name": "Comprehensive",
+      "value": "0.8922"
+    },
+    {
+      "id": "f",
+      "shortName": "F-Index",
+      "name": "Favorability",
+      "value": "0.9780"
+    },
+    {
+      "id": "p",
+      "shortName": "P-Index",
+      "name": "Participation",
+      "value": "1.1022",
+      "tier": "the top 4 tiers (70–89%)",
+      "advice": "Invite visitors to contribute and keep participants involved with regular updates."
+    },
+    {
+      "id": "v",
+      "shortName": "V-Index",
+      "name": "Visitor",
+      "value": "1.0000"
+    },
+    {
+      "id": "a",
+      "shortName": "A-Index",
+      "name": "Adopt",
+      "value": "0.9450"
+    }
+  ]
 }
