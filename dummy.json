@@ -65,7 +65,7 @@
       "symbol": "A",
       "label": "What gives a project value?",
       "title": "",
-      "description": "Opustown calculates various metrics such as the F-Index, P-Index, V-Index, and A-Index. The final project value refers to the C-Index. The Absolute Indexes provided by opustown are for reference only and do not represent market prices.",
+      "description": "Opustown calculates various metrics such as the F-Index, P-Index, V-Index, and A-Index. The final project value refers to the C-Index. The Absolute Indexes provided by Opustown are for reference only and do not represent market prices.",
       "tips": [
       ]
     },
@@ -74,7 +74,7 @@
       "symbol": "B",
       "label": "Tell me about the creator",
       "title": "",
-      "description": "The Captain's name is James, and this project was launched on November 23, 2026. The current members consist of 4 Lead Group members, 12 Credit Members, and 26 Heart Members.\nJames has launched 3 projects and is participating in 5 projects as a contributor. He is excellent as a creator.",
+      "description": "The Captain's name is {captainName}, and this project was launched on {launchDate}. The current members consist of {leadGroupMembers} Lead Group members, {creditMembers} Credit Members, and {heartMembers} Heart Members. {captainName} has launched {projectsLaunched} projects and is participating in {projectsAsContributor} projects as a contributor.",
       "tips": [
       ]
     },
@@ -83,7 +83,7 @@
       "symbol": "C",
       "label": "What should I check first?",
       "title": "",
-      "description": "To participate in a creative project, first check the project's Goal, Concept, and Tone & Mood. Then, consider contributing to proposing stories or building up images.\nIf you have received credits in a collaborative project, check your share. You can trust the fair distribution of copyrights by opustown, which aims for 'Allocative Web 3.0'.\nIt is important to understand that depending on the commercialization, the joint copyright for the entire project differs from the joint copyright for each section.",
+      "description": "To participate in a creative project, first check the project's Goal, Concept, and Tone & Mood. Then, consider contributing by proposing stories or building up images. If you have received credits in a collaborative project, check your share. You can trust the fair distribution of copyrights by Opustown, which aims for \"Allocative Web 3.0.\" Depending on the commercialization, the joint copyright for the entire project differs from the joint copyright for each section.",
       "tips": [
       ]
     }
@@ -95,6 +95,15 @@
     "continue": "Continue exploring"
   },
   "projectId": "AAA",
+  "creator": {
+    "captainName": "James",
+    "launchDate": "November 23, 2026",
+    "leadGroupMembers": 4,
+    "creditMembers": 12,
+    "heartMembers": 26,
+    "projectsLaunched": 3,
+    "projectsAsContributor": 5
+  },
   "indices": [
     {
       "id": "c",

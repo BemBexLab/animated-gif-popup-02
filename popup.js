@@ -25,6 +25,11 @@ document.addEventListener('alpine:init', () => {
     get selected() {
       return this.options.find(option => option.id === this.interest);
     },
+    get selectedDescription() {
+      const option = this.selected;
+      if (option?.id !== 'creator') return option?.description ?? '';
+      return option.description.replace(/\{(\w+)\}/g, (_, field) => this.content.creator[field]);
+    },
     // Keep the original oval and tail path; scale it uniformly to fit the text.
     get bubblePath() {
       return 'M174 302 C88 273 33 225 33 171 C33 82 183 10 368 10 C553 10 703 82 703 171 C703 260 553 332 368 332 C313 332 261 326 215 315 Q180 348 142 365 Q159 333 174 302 Z';
@@ -37,12 +42,16 @@ document.addEventListener('alpine:init', () => {
       const { scale, tx, ty } = this.bubbleGeometry;
       return `matrix(${scale / 712} 0 0 ${scale / 536} ${tx / 712} ${ty / 536})`;
     },
+    get bubbleTextCenterY() {
+      const { scale, ty } = this.bubbleGeometry;
+      // The picker is centered between the top of the outline and the tip of the tail.
+      return ty + scale * (this.step === 2 ? (10 + 365) / 2 : 171);
+    },
     get bubbleTextStyle() {
       if (this.flowingLayout) return { left: 'auto', top: 'auto' };
-      const { scale, tx, ty } = this.bubbleGeometry;
+      const { scale, tx } = this.bubbleGeometry;
       const left = tx + scale * 368;
-      const top = ty + scale * 171;
-      return { left: (left / 712 * 100) + '%', top: (top / 536 * 100) + '%' };
+      return { left: (left / 712 * 100) + '%', top: (this.bubbleTextCenterY / 536 * 100) + '%' };
     },
     get stageStyle() {
       const offset = this.flowingLayout ? 0 : this.stageOffsetX;
@@ -213,7 +222,7 @@ document.addEventListener('alpine:init', () => {
 
       const currentGeometry = this.bubbleGeometry;
       const centerX = currentGeometry.tx + currentGeometry.scale * 368;
-      const centerY = currentGeometry.ty + currentGeometry.scale * 171;
+      const centerY = this.bubbleTextCenterY;
       const step5Answer = Number(this.step) === 5 && Boolean(this.selected);
       const bubbleScale = Math.min(step5Answer ? 0.96 : 0.93, Math.max(0.48, ...fragments.map(rect => {
         const dx = Math.abs((rect.left + rect.width / 2 - anchorRect.left) / scale - this.stageOffsetX - centerX);
@@ -254,11 +263,8 @@ document.addEventListener('alpine:init', () => {
     },
     explore() { this.step = 5; this.interest = null; this.focusStep(); },
     answerNo() {
-      if (Number(this.step) === 4) {
-        this.explore();
-        return;
-      }
-      this.closePopup();
+      if (this.step === 1) this.closePopup();
+      else this.explore();
     },
     goBack() {
       if (Number(this.step) === 5) {
@@ -267,14 +273,13 @@ document.addEventListener('alpine:init', () => {
           this.focusStep();
           return;
         }
-        this.backFromExplore();
+        this.chooseIndex(this.selectedIndexId);
         return;
       }
       this.step = Number(this.step) === 2 ? 1 : 2;
       this.focusStep();
     },
     chooseTopic(id) { this.interest = id; this.focusStep(); },
-    backFromExplore() { this.step = 4; this.focusStep(); },
     closePopup() {
       this.isOpen = false;
       this.glassObserver?.disconnect();
