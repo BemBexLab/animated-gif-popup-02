@@ -18,6 +18,9 @@ document.addEventListener('alpine:init', () => {
     get selected() {
       return this.content.options.find(option => option.id === this.interest);
     },
+    get isReadingAnswer() {
+      return this.step === 3 || this.step === 4 || (this.step === 5 && Boolean(this.selected));
+    },
     get selectedDescription() {
       const option = this.selected;
       if (option?.id !== 'creator') return option?.description ?? '';
@@ -103,9 +106,10 @@ document.addEventListener('alpine:init', () => {
       if (flowing) this.stageOffsetX = 0;
       else this.fitBubble(anchor, rect);
     },
-    fitBubble(anchor, anchorRect) {
+    bubbleContentRects() {
+      // Size the oval around the visible reading area, including its scrollbar.
+      if (this.isReadingAnswer) return this.$refs.answerViewport.getClientRects();
       const title = this.$refs.stepTitle;
-      const scale = anchorRect.width / 712;
       const fragments = [];
       const walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
       const range = document.createRange();
@@ -119,15 +123,21 @@ document.addEventListener('alpine:init', () => {
       for (const button of title.querySelectorAll('.index-choices button')) {
         fragments.push(...button.getClientRects());
       }
+      return fragments;
+    },
+    fitBubble(anchor, anchorRect) {
+      const fragments = this.bubbleContentRects();
       if (!fragments.length) return;
 
+      const scale = anchorRect.width / 712;
       const centerX = anchorRect.left + (this.stageOffsetX + this.bubbleCenterX) * scale;
       const centerY = anchorRect.top + this.bubbleTextCenterY * scale;
       // Fit the farthest corner of each fragment inside the oval's 335 × 161 radii.
       let requiredScale = 0.48;
+      const inset = this.isReadingAnswer ? 18 : 10;
       for (const rect of fragments) {
-        const dx = Math.max(centerX - rect.left, rect.right - centerX) / scale + 10;
-        const dy = Math.max(centerY - rect.top, rect.bottom - centerY) / scale + 10;
+        const dx = Math.max(centerX - rect.left, rect.right - centerX) / scale + inset;
+        const dy = Math.max(centerY - rect.top, rect.bottom - centerY) / scale + inset;
         requiredScale = Math.max(requiredScale, Math.hypot(dx / 335, dy / 161));
       }
       const step5Answer = this.step === 5 && Boolean(this.selected);
@@ -154,7 +164,11 @@ document.addEventListener('alpine:init', () => {
       this.interest = topicId;
       this.$nextTick(() => {
         this.$refs.popupViewport?.scrollTo({ top: 0, behavior: 'instant' });
-        this.$refs.stepTitle?.focus({ preventScroll: true });
+        const answer = this.$refs.answerViewport;
+        answer?.scrollTo({ top: 0, behavior: 'instant' });
+        const focusTarget = answer && this.isReadingAnswer && answer.scrollHeight > answer.clientHeight
+          ? answer : this.$refs.stepTitle;
+        focusTarget?.focus({ preventScroll: true });
         this.syncLayout();
       });
     },

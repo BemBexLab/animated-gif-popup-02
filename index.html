@@ -8,7 +8,7 @@
     />
     <title></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.5" defer></script>
-    <script src="./popup.js?v=20261128-transparent" defer></script>
+    <script src="./popup.js?v=20261128-scrollable-answers" defer></script>
     <script
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"
       defer
@@ -139,7 +139,11 @@
                 group-data-compact:border-[#008bd2] group-data-compact:bg-[#b2e3fa]/20
                 group-data-compact:px-[clamp(12px,4vw,20px)] group-data-compact:text-base/6
                 group-data-compact:[&_p+p]:mt-1.5"
-              :class="step === 2 ? 'group-data-compact:py-[34px]' : 'group-data-compact:pt-12 group-data-compact:pb-5'"
+              :class="{
+                'group-data-compact:py-[34px]': step === 2,
+                'group-data-compact:py-12': isReadingAnswer,
+                'group-data-compact:pt-12 group-data-compact:pb-5': step !== 2 && !isReadingAnswer
+              }"
               aria-live="polite"
               aria-atomic="true"
             >
@@ -171,38 +175,6 @@
                   </template>
                 </div>
               </div>
-              <div x-show="step === 3" class="leading-[1.15]">
-                <p>
-                  Today, the <span x-text="selectedIndex?.name"></span
-                  ><br />Index for Project “AAA” is
-                  <span x-text="selectedIndex?.value"></span>.
-                </p>
-                <p>
-                  An absolute index value of 1 or less indicates that the
-                  asset<br class="group-data-compact:hidden" />
-                  possesses a substantive value below the average.
-                </p>
-                <p class="font-bold text-[#ff6255]">
-                  When the absolute index is 1 or less,<br />Kkaebi withholds
-                  evaluation.
-                </p>
-                <p x-text="content.messages.otherItems"></p>
-              </div>
-              <div x-show="step === 4" class="px-[2.5cqw] leading-[1.15]">
-                <p>
-                  Today’s <span x-text="selectedIndex?.name"></span> Index is
-                  <span x-text="selectedIndex?.value"></span>.
-                </p>
-                <p>This is above average.</p>
-                <p
-                  x-text="'The ' + selectedIndex?.name + ' Index of ' + selectedIndex?.value + ' falls within ' + selectedIndex?.tier + '.'"
-                ></p>
-                <p
-                  class="text-[#386e2c]"
-                  x-text="'Captain: ' + selectedIndex?.advice"
-                ></p>
-                <p x-text="content.messages.otherItems"></p>
-              </div>
               <div x-show="step === 5 && !selected">
                 <p x-text="content.messages.topics[0][0]"></p>
                 <p>
@@ -211,20 +183,68 @@
                   <span x-text="content.messages.topics[1][1]"></span>
                 </p>
               </div>
-              <div id="explore-answer" x-show="step === 5 && selected" class="px-[4cqw] leading-[4.95cqw] group-data-compact:px-0 group-data-compact:leading-6">
-                <template x-if="selected">
-                  <div>
-                    <p x-show="selected.title" class="font-bold" x-text="selected.title"></p>
-                    <p x-show="selected.description && !selected.tips?.length" class="max-h-[24cqw] overflow-y-auto whitespace-pre-line [scrollbar-width:none]
-                      [&::-webkit-scrollbar]:hidden group-data-compact:max-h-none
-                      group-data-compact:overflow-visible" x-text="selectedDescription"></p>
-                    <ul x-show="selected.tips?.length" class="mt-[1.5cqw] list-none [&>li+li]:mt-[0.7cqw]">
-                      <template x-for="tip in selected.tips || []" :key="tip">
-                        <li x-text="tip"></li>
-                      </template>
-                    </ul>
-                  </div>
-                </template>
+              <div
+                x-show="isReadingAnswer"
+                x-ref="answerViewport"
+                role="region"
+                :aria-label="selected?.label || 'Index evaluation'"
+                tabindex="0"
+                class="mx-auto w-fit max-w-[65cqw] overflow-y-auto overscroll-contain px-2 text-center wrap-anywhere
+                  focus-visible:rounded focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-sky-600
+                  [&::-webkit-scrollbar]:w-[5px] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-sky-100
+                  [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-sky-600
+                  [@supports_not_selector(::-webkit-scrollbar)]:[scrollbar-width:thin]
+                  [@supports_not_selector(::-webkit-scrollbar)]:[scrollbar-color:#0284c7_#e0f2fe]
+                  group-data-compact:max-w-full group-data-compact:max-h-[min(12rem,38dvh)]"
+                :class="step === 5
+                  ? 'max-h-[5lh] leading-[4.95cqw] group-data-compact:leading-6'
+                  : 'max-h-[7lh] leading-[1.15]'"
+              >
+                <div x-show="step === 3" class="leading-[1.15]">
+                  <p>
+                    Today, the <span x-text="selectedIndex?.name"></span
+                    ><br />Index for Project “AAA” is
+                    <span x-text="selectedIndex?.value"></span>.
+                  </p>
+                  <p>
+                    An absolute index value of 1 or less indicates that the
+                    asset<br class="group-data-compact:hidden" />
+                    possesses a substantive value below the average.
+                  </p>
+                  <p class="font-bold text-[#ff6255]">
+                    When the absolute index is 1 or less,<br />Kkaebi withholds
+                    evaluation.
+                  </p>
+                  <p x-text="content.messages.otherItems"></p>
+                </div>
+                <div x-show="step === 4" class="leading-[1.15]">
+                  <p>
+                    Today’s <span x-text="selectedIndex?.name"></span> Index is
+                    <span x-text="selectedIndex?.value"></span>.
+                  </p>
+                  <p>This is above average.</p>
+                  <p
+                    x-text="'The ' + selectedIndex?.name + ' Index of ' + selectedIndex?.value + ' falls within ' + selectedIndex?.tier + '.'"
+                  ></p>
+                  <p
+                    class="text-[#386e2c]"
+                    x-text="'Captain: ' + selectedIndex?.advice"
+                  ></p>
+                  <p x-text="content.messages.otherItems"></p>
+                </div>
+                <div id="explore-answer" x-show="step === 5 && selected">
+                  <template x-if="selected">
+                    <div>
+                      <p x-show="selected.title" class="font-bold" x-text="selected.title"></p>
+                      <p x-show="selected.description && !selected.tips?.length" class="whitespace-pre-line" x-text="selectedDescription"></p>
+                      <ul x-show="selected.tips?.length" class="mt-[1.5cqw] list-none [&>li+li]:mt-[0.7cqw]">
+                        <template x-for="tip in selected.tips || []" :key="tip">
+                          <li x-text="tip"></li>
+                        </template>
+                      </ul>
+                    </div>
+                  </template>
+                </div>
               </div>
             </div>
 
