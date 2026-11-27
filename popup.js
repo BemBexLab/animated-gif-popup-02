@@ -1,6 +1,5 @@
 document.addEventListener('alpine:init', () => {
   Alpine.data('wurizipPopup', () => ({
-    glassStyle: {},
     stageOffsetX: 0,
     resizeFrame: 0,
     bubbleGeometry: { scale: 0.9, tx: 36.8, ty: 17.1 },
@@ -28,10 +27,6 @@ document.addEventListener('alpine:init', () => {
     get bubbleTransform() {
       const { scale, tx, ty } = this.bubbleGeometry;
       return `matrix(${scale} 0 0 ${scale} ${tx} ${ty})`;
-    },
-    get bubbleClipTransform() {
-      const { scale, tx, ty } = this.bubbleGeometry;
-      return `matrix(${scale / 712} 0 0 ${scale / 536} ${tx / 712} ${ty / 536})`;
     },
     get bubbleTextCenterY() {
       const { scale, ty } = this.bubbleGeometry;
@@ -101,20 +96,12 @@ document.addEventListener('alpine:init', () => {
     syncLayout() {
       const anchor = this.$refs.popupAnchor;
       if (!this.isOpen || !anchor) return;
-      // The teleported glass and the popup share this Tailwind group on the page root.
       const flowing = window.matchMedia('(max-width: 600px), (max-height: 500px)').matches;
       this.$root.toggleAttribute('data-compact', flowing);
       const rect = anchor.getBoundingClientRect();
       if (!rect.width) return;
       if (flowing) this.stageOffsetX = 0;
       else this.fitBubble(anchor, rect);
-      const scale = rect.width / 712;
-      this.glassStyle = {
-        '--glass-left': rect.left + this.stageOffsetX * scale + 'px',
-        '--glass-top': rect.top + 'px',
-        '--glass-width': rect.width + 'px',
-        '--glass-height': (flowing ? rect.height : 536 * scale) + 'px',
-      };
     },
     fitBubble(anchor, anchorRect) {
       const title = this.$refs.stepTitle;

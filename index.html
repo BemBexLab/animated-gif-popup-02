@@ -8,13 +8,13 @@
     />
     <title></title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.5" defer></script>
-    <script src="./popup.js?v=20261128-tailwind" defer></script>
+    <script src="./popup.js?v=20261128-transparent" defer></script>
     <script
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"
       defer
     ></script>
   </head>
-  <body x-data="wurizipPopup" class="group min-h-dvh bg-white font-[Arial,sans-serif] text-base leading-[1.5] text-black
+  <body x-data="wurizipPopup" class="group min-h-dvh bg-transparent font-[Arial,sans-serif] text-base leading-[1.5] text-black
     [&_button]:cursor-pointer [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-offset-[3px]
     [&_button:focus-visible]:outline-[#008bd2]">
     <template x-if="loadError">
@@ -26,7 +26,7 @@
         x-ref="popupAnchor"
         :data-step="step"
         :style="layoutStyle"
-        class="group/popup fixed right-[max(8px,env(safe-area-inset-right))]
+        class="group/popup fixed bg-transparent right-[max(8px,env(safe-area-inset-right))]
           bottom-[max(8px,env(safe-area-inset-bottom))] z-50 @container w-[min(712px,calc(100vw-16px))]
           max-w-[calc(100vw-max(8px,env(safe-area-inset-left))-max(8px,env(safe-area-inset-right)))] lg:right-4
           lg:bottom-4 lg:w-[min(712px,calc(100vw-32px))]
@@ -37,8 +37,8 @@
         <button
           x-show="step > 1"
           type="button"
-          class="absolute top-(--control-y) z-30 grid size-11 place-items-center rounded-full bg-white/65
-            text-[#008bd2] backdrop-blur-[10px] group-data-compact:top-0 group-data-compact:left-auto
+          class="absolute top-(--control-y) z-30 grid size-11 place-items-center rounded-full bg-white/25
+            text-[#008bd2] group-data-compact:top-0 group-data-compact:left-auto
             left-[calc(var(--close-x)-44*var(--stage-unit))] group-data-compact:right-[calc(2%+44px)]"
           @click="goBack()"
           aria-label="Go back"
@@ -50,8 +50,8 @@
         </button>
         <button
           type="button"
-          class="popup-close absolute top-(--control-y) z-30 grid size-11 place-items-center rounded-full bg-white/65
-            text-[#008bd2] backdrop-blur-[10px] group-data-compact:top-0 group-data-compact:left-auto
+          class="popup-close absolute top-(--control-y) z-30 grid size-11 place-items-center rounded-full bg-white/25
+            text-[#008bd2] group-data-compact:top-0 group-data-compact:left-auto
             left-(--close-x) group-data-compact:right-[2%]"
           @click="closePopup()"
           aria-label="Close Wurizip"
@@ -71,29 +71,12 @@
         >
           <div class="relative aspect-[712/536] translate-x-(--stage-offset) group-data-compact:aspect-auto
             group-data-compact:translate-x-0">
-            <!-- Render the glass at the document level so the popup's stacking context does not block backdrop sampling. -->
-            <template x-teleport="body">
-              <div
-                class="pointer-events-none fixed top-(--glass-top) left-(--glass-left) z-49 h-(--glass-height)
-                  w-(--glass-width) bg-[#b2e3fa]/55 backdrop-blur-[16px] backdrop-saturate-[1.4]
-                  [clip-path:url(#glass-clip)] group-data-compact:rounded-[32px] group-data-compact:bg-white/40
-                  group-data-compact:[clip-path:none]"
-                :style="glassStyle"
-                aria-hidden="true"
-              ></div>
-            </template>
             <svg
               class="pointer-events-none absolute inset-0 size-full group-data-compact:hidden"
               viewBox="0 0 712 536"
               aria-hidden="true"
             >
               <defs>
-                <clipPath id="glass-clip" clipPathUnits="objectBoundingBox">
-                  <path
-                    :d="bubblePath"
-                    :transform="bubbleClipTransform"
-                  />
-                </clipPath>
                 <filter
                   id="bubble-edge"
                   x="-5%"
@@ -120,7 +103,7 @@
               <path
                 :d="bubblePath"
                 :transform="bubbleTransform"
-                fill="none"
+                class="fill-[#b2e3fa]/20"
                 stroke="#008bd2"
                 stroke-width="3"
                 stroke-linejoin="round"
@@ -153,14 +136,14 @@
                 group-data-compact:inset-auto group-data-compact:mx-auto group-data-compact:w-fit
                 group-data-compact:max-w-[calc(100%-16px)] group-data-compact:translate-0
                 group-data-compact:rounded-[36px] group-data-compact:border-3 group-data-compact:border-dotted
-                group-data-compact:border-[#008bd2] group-data-compact:bg-[#b2e3fa]/55
+                group-data-compact:border-[#008bd2] group-data-compact:bg-[#b2e3fa]/20
                 group-data-compact:px-[clamp(12px,4vw,20px)] group-data-compact:text-base/6
                 group-data-compact:[&_p+p]:mt-1.5"
               :class="step === 2 ? 'group-data-compact:py-[34px]' : 'group-data-compact:pt-12 group-data-compact:pb-5'"
               aria-live="polite"
               aria-atomic="true"
             >
-              <span aria-hidden="true" class="pointer-events-none absolute -bottom-[66px] left-[calc(clamp(72px,27vw,104px)*0.6-2px)] hidden size-8 rotate-45 border-r-3 border-b-3 border-dotted border-[#008bd2] bg-[#b2e3fa]/55 group-data-compact:block"></span>
+              <span aria-hidden="true" class="pointer-events-none absolute -bottom-[66px] left-[calc(clamp(72px,27vw,104px)*0.6-2px)] hidden size-8 rotate-45 border-r-3 border-b-3 border-dotted border-[#008bd2] bg-[#b2e3fa]/20 group-data-compact:block"></span>
               <div x-show="step === 1">
                 <p>Hi, I’m Wurizip,<br />your Opustown companion.</p>
                 <p>
