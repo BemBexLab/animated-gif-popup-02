@@ -3,51 +3,9 @@
   "accessibility": {
     "assistant": "Wurizip project assistant",
     "conversation": "Project participation conversation",
-    "currentStep": "Current step",
-    "minimize": "Minimize Wurizip",
-    "open": "Open Wurizip"
+    "currentStep": "Current step"
   },
   "messages": {
-    "intro": [
-      [
-        "Hi, I’m Wurizip,",
-        "your Opustown companion."
-      ],
-      [
-        "Would you like to learn more",
-        "about the project you visited?"
-      ]
-    ],
-    "project": [
-      [
-        "Let’s take a closer look at Project \"AAA\"."
-      ],
-      [
-        "The participation index is one part",
-        "of the project’s information."
-      ],
-      [
-        "Would you like to see its index?"
-      ]
-    ],
-    "result": [
-      [
-        "Today, the Participation",
-        "Index for Project \"AAA\" is 0.8922."
-      ],
-      [
-        "An absolute index value of 1 or less indicates that the asset",
-        "possesses a substantive value below the average."
-      ],
-      [
-        "When the absolute index is 1 or less,",
-        "Kkaebi withholds evaluation."
-      ],
-      [
-        "Would you like to know more about the actual value",
-        "of other items?"
-      ]
-    ],
     "topics": [
       [
         "What would you like to explore next?"
@@ -64,34 +22,24 @@
       "id": "value",
       "symbol": "A",
       "label": "What gives a project value?",
-      "title": "",
-      "description": "Opustown calculates various metrics such as the F-Index, P-Index, V-Index, and A-Index. The final project value refers to the C-Index. The Absolute Indexes provided by Opustown are for reference only and do not represent market prices.",
-      "tips": [
-      ]
+      "description": "Opustown calculates various metrics such as the F-Index, P-Index, V-Index, and A-Index. The final project value refers to the C-Index. The Absolute Indexes provided by Opustown are for reference only and do not represent market prices."
     },
     {
       "id": "creator",
       "symbol": "B",
       "label": "Tell me about the creator",
-      "title": "",
-      "description": "The Captain's name is {captainName}, and this project was launched on {launchDate}. The current members consist of {leadGroupMembers} Lead Group members, {creditMembers} Credit Members, and {heartMembers} Heart Members. {captainName} has launched {projectsLaunched} projects and is participating in {projectsAsContributor} projects as a contributor.",
-      "tips": [
-      ]
+      "description": "The Captain's name is {captainName}, and this project was launched on {launchDate}. The current members consist of {leadGroupMembers} Lead Group members, {creditMembers} Credit Members, and {heartMembers} Heart Members. {captainName} has launched {projectsLaunched} projects and is participating in {projectsAsContributor} projects as a contributor."
     },
     {
       "id": "details",
       "symbol": "C",
       "label": "What should I check first?",
-      "title": "",
-      "description": "To participate in a creative project, first check the project's Goal, Concept, and Tone & Mood. Then, consider contributing by proposing stories or building up images. If you have received credits in a collaborative project, check your share. You can trust the fair distribution of copyrights by Opustown, which aims for \"Allocative Web 3.0.\" Depending on the commercialization, the joint copyright for the entire project differs from the joint copyright for each section.",
-      "tips": [
-      ]
+      "description": "To participate in a creative project, first check the project's Goal, Concept, and Tone & Mood. Then, consider contributing by proposing stories or building up images. If you have received credits in a collaborative project, check your share. You can trust the fair distribution of copyrights by Opustown, which aims for \"Allocative Web 3.0.\" Depending on the commercialization, the joint copyright for the entire project differs from the joint copyright for each section."
     }
   ],
   "buttons": {
     "yes": "Yes",
     "no": "No",
-    "back": "← Back",
     "continue": "Continue exploring"
   },
   "projectId": "AAA",
